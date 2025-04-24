@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { Github, Linkedin, Mail } from "lucide-react";
+import { Github, Linkedin, Mail, Download } from "lucide-react";
 
 const ContactSection = () => {
   const [formData, setFormData] = useState({
@@ -154,9 +154,13 @@ const ContactSection = () => {
               <p className="text-portfolio-gray mb-4">
                 I'm always open to discussing new projects, creative ideas or opportunities to be part of your vision.
               </p>
-              <Button asChild variant="outline" className="border-portfolio-blue text-portfolio-blue hover:bg-portfolio-lightBlue w-full">
-                <a href="#" download>
-                  Download Resume
+              <Button 
+                asChild 
+                variant="outline" 
+                className="border-portfolio-blue text-portfolio-blue hover:bg-portfolio-lightBlue w-full"
+              >
+                <a href="/anish-reddy-resume.pdf" download>
+                  <Download size={16} className="mr-2" /> Download Resume
                 </a>
               </Button>
             </div>
