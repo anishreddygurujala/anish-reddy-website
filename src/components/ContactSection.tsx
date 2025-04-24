@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -117,7 +116,7 @@ const ContactSection = () => {
               <div className="space-y-4">
                 <p className="flex items-start">
                   <Mail className="mr-3 text-portfolio-blue" />
-                  <span className="text-portfolio-gray">anish.reddy@example.com</span>
+                  <span className="text-portfolio-gray">anish28029@gmail.com</span>
                 </p>
               </div>
             </div>

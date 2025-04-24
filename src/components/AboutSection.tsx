@@ -17,7 +17,7 @@ const AboutSection = () => {
               <div className="absolute -inset-1 bg-gradient-to-r from-portfolio-blue to-portfolio-lightBlue rounded-lg blur-sm opacity-75"></div>
               <div className="relative aspect-square bg-white rounded-lg overflow-hidden shadow-lg">
                 <img 
-                  src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
+                  src="/lovable-uploads/2e9a44e9-333f-4a27-bc40-b89b22b31fb0.png"
                   alt="Anish Reddy Gurujala"
                   className="w-full h-full object-cover"
                 />
@@ -44,7 +44,7 @@ const AboutSection = () => {
             </div>
             
             <Button asChild variant="outline" className="border-portfolio-blue text-portfolio-blue hover:bg-portfolio-lightBlue mt-4">
-              <a href="#" download>
+              <a href="/anish-reddy-resume.pdf" download>
                 <Download className="mr-2" size={16} />
                 Download Resume
               </a>
