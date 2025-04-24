@@ -1,6 +1,7 @@
-import { Github, ExternalLink, Play } from "lucide-react";
+import { Github, ExternalLink, Play, Image as ImageIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 
 const projects = [
   {
@@ -14,7 +15,8 @@ const projects = [
   {
     title: "Real-Time Event Detection System",
     description: "A system that processes and analyzes data streams to detect events in real-time, utilizing AWS services for scalability and reliability.",
-    image: "/lovable-uploads/aa08c58f-9a7f-4ebe-b963-b2d38d19cffa.png",
+    image: "https://images.unsplash.com/photo-1498050108023-c5249f4df085?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+    demoImage: "/lovable-uploads/aa08c58f-9a7f-4ebe-b963-b2d38d19cffa.png",
     tags: ["Python", "AWS Lambda", "DynamoDB", "CloudWatch", "S3"],
     github: "https://github.com/anishreddygurujala/automatic-detection-",
     liveDemo: "https://anishreddygurujala.github.io/profile/",
@@ -72,15 +74,33 @@ const ProjectsSection = () => {
                     <Github size={16} className="mr-2" /> Code
                   </a>
                 </Button>
-                <Button asChild size="sm" className="flex-1 bg-portfolio-blue hover:bg-portfolio-darkBlue">
-                  <a href={project.liveDemo} target="_blank" rel="noopener noreferrer">
-                    {project.title === "Real-Time Event Detection System" ? (
-                      <><Play size={16} className="mr-2" /> Demo</>
-                    ) : (
-                      <><ExternalLink size={16} className="mr-2" /> Demo</>
-                    )}
-                  </a>
-                </Button>
+                {project.title === "Real-Time Event Detection System" ? (
+                  <Dialog>
+                    <DialogTrigger asChild>
+                      <Button size="sm" className="flex-1 bg-portfolio-blue hover:bg-portfolio-darkBlue">
+                        <Play size={16} className="mr-2" /> Demo
+                      </Button>
+                    </DialogTrigger>
+                    <DialogContent className="max-w-4xl">
+                      <DialogHeader>
+                        <DialogTitle>{project.title} Demo</DialogTitle>
+                      </DialogHeader>
+                      <div className="flex justify-center">
+                        <img 
+                          src={project.demoImage} 
+                          alt={`${project.title} Demo`} 
+                          className="max-w-full max-h-[600px] object-contain"
+                        />
+                      </div>
+                    </DialogContent>
+                  </Dialog>
+                ) : (
+                  <Button asChild size="sm" className="flex-1 bg-portfolio-blue hover:bg-portfolio-darkBlue">
+                    <a href={project.liveDemo} target="_blank" rel="noopener noreferrer">
+                      <ExternalLink size={16} className="mr-2" /> Demo
+                    </a>
+                  </Button>
+                )}
               </div>
             </div>
           ))}
