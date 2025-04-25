@@ -3,7 +3,13 @@ import { useRef } from 'react';
 import { useFrame } from '@react-three/fiber';
 import { Mesh } from 'three';
 
-const Starfish = ({ position = [0, 0, 0], rotation = [0, 0, 0], scale = 1 }) => {
+interface StarfishProps {
+  position?: [number, number, number];
+  rotation?: [number, number, number];
+  scale?: number;
+}
+
+const Starfish = ({ position = [0, 0, 0], rotation = [0, 0, 0], scale = 1 }: StarfishProps) => {
   const starfishRef = useRef<Mesh>(null);
 
   useFrame(({ clock }) => {
@@ -15,9 +21,7 @@ const Starfish = ({ position = [0, 0, 0], rotation = [0, 0, 0], scale = 1 }) => 
   return (
     <mesh ref={starfishRef} position={position} rotation={rotation} scale={scale}>
       <circleGeometry args={[0.8, 5]} />
-      <meshStandardMaterial>
-        <color attach="color" args={["#FFA07A"]} />
-      </meshStandardMaterial>
+      <meshStandardMaterial color="#FFA07A" />
     </mesh>
   );
 };

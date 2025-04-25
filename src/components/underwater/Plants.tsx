@@ -3,7 +3,12 @@ import { useRef } from 'react';
 import { useFrame } from '@react-three/fiber';
 import { Mesh } from 'three';
 
-const Plants = ({ position = [0, 0, 0], scale = 1 }) => {
+interface PlantsProps {
+  position?: [number, number, number];
+  scale?: number;
+}
+
+const Plants = ({ position = [0, 0, 0], scale = 1 }: PlantsProps) => {
   const plantRef = useRef<Mesh>(null);
 
   useFrame(({ clock }) => {
@@ -16,15 +21,11 @@ const Plants = ({ position = [0, 0, 0], scale = 1 }) => {
     <group position={position} scale={scale}>
       <mesh ref={plantRef}>
         <cylinderGeometry args={[0.1, 0.1, 2, 8]} />
-        <meshStandardMaterial>
-          <color attach="color" args={["#90EE90"]} />
-        </meshStandardMaterial>
+        <meshStandardMaterial color="#90EE90" />
       </mesh>
       <mesh position={[0.3, 0.5, 0]}>
         <cylinderGeometry args={[0.1, 0.1, 1.5, 8]} />
-        <meshStandardMaterial>
-          <color attach="color" args={["#98FB98"]} />
-        </meshStandardMaterial>
+        <meshStandardMaterial color="#98FB98" />
       </mesh>
     </group>
   );

@@ -1,9 +1,14 @@
 
 import { useRef } from 'react';
 import { useFrame } from '@react-three/fiber';
-import { Mesh } from 'three';
+import { Mesh, Vector3 } from 'three';
 
-const Fish = ({ position = [0, 0, 0], scale = 1 }) => {
+interface FishProps {
+  position?: [number, number, number];
+  scale?: number;
+}
+
+const Fish = ({ position = [0, 0, 0], scale = 1 }: FishProps) => {
   const fishRef = useRef<Mesh>(null);
 
   useFrame(({ clock }) => {
@@ -17,14 +22,10 @@ const Fish = ({ position = [0, 0, 0], scale = 1 }) => {
   return (
     <mesh ref={fishRef} position={position} scale={scale}>
       <sphereGeometry args={[0.5, 32, 32]} />
-      <meshStandardMaterial>
-        <color attach="color" args={["#FF6B6B"]} />
-      </meshStandardMaterial>
+      <meshStandardMaterial color="#FF6B6B" />
       <mesh position={[0.6, 0, 0]}>
         <coneGeometry args={[0.4, 0.8, 32]} />
-        <meshStandardMaterial>
-          <color attach="color" args={["#FF6B6B"]} />
-        </meshStandardMaterial>
+        <meshStandardMaterial color="#FF6B6B" />
       </mesh>
     </mesh>
   );
