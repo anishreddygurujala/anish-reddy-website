@@ -15,7 +15,9 @@ const Starfish = ({ position = [0, 0, 0], rotation = [0, 0, 0], scale = 1 }) => 
   return (
     <mesh ref={starfishRef} position={position} rotation={rotation} scale={scale}>
       <circleGeometry args={[0.8, 5]} />
-      <meshStandardMaterial color="#FFA07A" />
+      <meshStandardMaterial>
+        <color attach="color" args={["#FFA07A"]} />
+      </meshStandardMaterial>
     </mesh>
   );
 };

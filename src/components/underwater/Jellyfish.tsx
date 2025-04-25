@@ -16,7 +16,9 @@ const Jellyfish = ({ position = [0, 0, 0], scale = 1 }) => {
   return (
     <mesh ref={jellyfishRef} position={position} scale={scale}>
       <sphereGeometry args={[0.6, 32, 16, 0, Math.PI * 2, 0, Math.PI * 0.5]} />
-      <meshStandardMaterial color="#FF69B4" transparent opacity={0.7} />
+      <meshStandardMaterial transparent opacity={0.7}>
+        <color attach="color" args={["#FF69B4"]} />
+      </meshStandardMaterial>
     </mesh>
   );
 };

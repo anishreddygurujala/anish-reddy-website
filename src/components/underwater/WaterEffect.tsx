@@ -15,7 +15,9 @@ const WaterEffect = () => {
   return (
     <mesh ref={waterRef} position={[0, 0, -10]} scale={[40, 40, 1]}>
       <planeGeometry />
-      <meshStandardMaterial color="#0077be" transparent opacity={0.3} />
+      <meshStandardMaterial transparent opacity={0.3}>
+        <color attach="color" args={["#0077be"]} />
+      </meshStandardMaterial>
     </mesh>
   );
 };

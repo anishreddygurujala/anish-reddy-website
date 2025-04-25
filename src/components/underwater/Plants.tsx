@@ -16,11 +16,15 @@ const Plants = ({ position = [0, 0, 0], scale = 1 }) => {
     <group position={position} scale={scale}>
       <mesh ref={plantRef}>
         <cylinderGeometry args={[0.1, 0.1, 2, 8]} />
-        <meshStandardMaterial color="#90EE90" />
+        <meshStandardMaterial>
+          <color attach="color" args={["#90EE90"]} />
+        </meshStandardMaterial>
       </mesh>
       <mesh position={[0.3, 0.5, 0]}>
         <cylinderGeometry args={[0.1, 0.1, 1.5, 8]} />
-        <meshStandardMaterial color="#98FB98" />
+        <meshStandardMaterial>
+          <color attach="color" args={["#98FB98"]} />
+        </meshStandardMaterial>
       </mesh>
     </group>
   );

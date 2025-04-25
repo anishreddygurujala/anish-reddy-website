@@ -17,10 +17,14 @@ const Fish = ({ position = [0, 0, 0], scale = 1 }) => {
   return (
     <mesh ref={fishRef} position={position} scale={scale}>
       <sphereGeometry args={[0.5, 32, 32]} />
-      <meshStandardMaterial color="#FF6B6B" />
+      <meshStandardMaterial>
+        <color attach="color" args={["#FF6B6B"]} />
+      </meshStandardMaterial>
       <mesh position={[0.6, 0, 0]}>
         <coneGeometry args={[0.4, 0.8, 32]} />
-        <meshStandardMaterial color="#FF6B6B" />
+        <meshStandardMaterial>
+          <color attach="color" args={["#FF6B6B"]} />
+        </meshStandardMaterial>
       </mesh>
     </mesh>
   );
