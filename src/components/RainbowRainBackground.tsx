@@ -25,6 +25,13 @@ interface Lightning {
   timeLeft: number;
 }
 
+interface Sun {
+  x: number;
+  y: number;
+  radius: number;
+  glowRadius: number;
+}
+
 const RainbowRainBackground = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const thunderTimeoutRef = useRef<number | null>(null);
@@ -47,8 +54,27 @@ const RainbowRainBackground = () => {
     const clouds: Cloud[] = [];
     const raindrops: RainDrop[] = [];
     let lightnings: Lightning[] = [];
-    let rainbowOpacity = 0;
-    let showRainbow = false;
+    
+    // Initialize sun
+    const sun: Sun = {
+      x: 0,
+      y: canvas.height * 0.3,
+      radius: 50,
+      glowRadius: 80
+    };
+
+    // Calculate sun position based on time
+    const updateSunPosition = () => {
+      const now = new Date();
+      const hours = now.getHours() + now.getMinutes() / 60;
+      
+      // Map 24 hours to canvas width (6am to 6pm is visible)
+      const dayProgress = (hours - 6) / 12;
+      sun.x = canvas.width * dayProgress;
+      
+      // Add slight vertical movement (arc)
+      sun.y = canvas.height * 0.3 - Math.sin(dayProgress * Math.PI) * 50;
+    };
 
     // Create clouds
     for (let i = 0; i < 8; i++) {
@@ -58,7 +84,7 @@ const RainbowRainBackground = () => {
         width: 200 + Math.random() * 300,
         height: 80 + Math.random() * 80,
         speed: 0.2 + Math.random() * 0.2,
-        opacity: 0.3 + Math.random() * 0.2  // Reduced opacity for lighter clouds
+        opacity: 0.3 + Math.random() * 0.2
       });
     }
 
@@ -69,7 +95,7 @@ const RainbowRainBackground = () => {
         y: Math.random() * canvas.height,
         speed: 5 + Math.random() * 7,
         size: 1 + Math.random() * 2,
-        opacity: 0.2 + Math.random() * 0.2  // Lighter rain drops
+        opacity: 0.2 + Math.random() * 0.2
       });
     }
 
@@ -84,7 +110,6 @@ const RainbowRainBackground = () => {
         const offsetX = (Math.random() - 0.5) * 40;
         points.push({ x: points[points.length - 1].x + offsetX, y: currentY });
         
-        // Add branches occasionally
         if (Math.random() < 0.3) {
           const branchLength = Math.floor(Math.random() * 3) + 2;
           let branchX = points[points.length - 1].x;
@@ -109,7 +134,7 @@ const RainbowRainBackground = () => {
 
     // Schedule thunder
     const scheduleThunder = () => {
-      const nextThunder = 8000 + Math.random() * 20000; // Longer intervals between thunder
+      const nextThunder = 8000 + Math.random() * 20000;
       thunderTimeoutRef.current = window.setTimeout(() => {
         lightnings.push(createLightning());
         scheduleThunder();
@@ -118,10 +143,38 @@ const RainbowRainBackground = () => {
 
     scheduleThunder();
 
+    // Draw sun with glow effect
+    const drawSun = () => {
+      ctx.save();
+      
+      // Create gradient for sun glow
+      const gradient = ctx.createRadialGradient(
+        sun.x, sun.y, sun.radius,
+        sun.x, sun.y, sun.glowRadius
+      );
+      gradient.addColorStop(0, 'rgba(255, 220, 100, 1)');
+      gradient.addColorStop(0.3, 'rgba(255, 220, 100, 0.3)');
+      gradient.addColorStop(1, 'rgba(255, 220, 100, 0)');
+      
+      // Draw glow
+      ctx.fillStyle = gradient;
+      ctx.beginPath();
+      ctx.arc(sun.x, sun.y, sun.glowRadius, 0, Math.PI * 2);
+      ctx.fill();
+      
+      // Draw sun core
+      ctx.fillStyle = '#FFE87C';
+      ctx.beginPath();
+      ctx.arc(sun.x, sun.y, sun.radius, 0, Math.PI * 2);
+      ctx.fill();
+      
+      ctx.restore();
+    };
+
     // Draw cloud
     const drawCloud = (cloud: Cloud) => {
       ctx.save();
-      ctx.fillStyle = `rgba(200, 200, 210, ${cloud.opacity})`; // Lighter cloud color
+      ctx.fillStyle = `rgba(200, 200, 210, ${cloud.opacity})`;
       
       // Draw cloud shape using multiple circles
       const centerX = cloud.x + cloud.width / 2;
@@ -177,10 +230,14 @@ const RainbowRainBackground = () => {
     const animate = () => {
       // Clear canvas with a light blue-gray gradient for daytime
       const gradient = ctx.createLinearGradient(0, 0, 0, canvas.height);
-      gradient.addColorStop(0, '#C8D6E5');  // Light blue-gray at top
-      gradient.addColorStop(1, '#8395A7');  // Slightly darker at bottom
+      gradient.addColorStop(0, '#87CEEB');
+      gradient.addColorStop(1, '#B0C4DE');
       ctx.fillStyle = gradient;
       ctx.fillRect(0, 0, canvas.width, canvas.height);
+      
+      // Update and draw sun
+      updateSunPosition();
+      drawSun();
       
       // Update and draw clouds
       clouds.forEach(cloud => {
@@ -198,7 +255,7 @@ const RainbowRainBackground = () => {
       // Draw raindrops
       raindrops.forEach(drop => {
         ctx.beginPath();
-        ctx.fillStyle = `rgba(220, 230, 240, ${drop.opacity})`; // Lighter rain color
+        ctx.fillStyle = `rgba(220, 230, 240, ${drop.opacity})`;
         ctx.ellipse(drop.x, drop.y, drop.size / 2, drop.size, 0, 0, Math.PI * 2);
         ctx.fill();
         
