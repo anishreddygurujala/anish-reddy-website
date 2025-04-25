@@ -10,7 +10,7 @@ const projects = [
     image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
     tags: ["React.js", "Node.js", "MongoDB", "Express", "Stripe API"],
     github: "https://github.com/anishreddygurujala/market-bridge-platform-39",
-    liveDemo: "https://anishreddygurujala.github.io/profile/",
+    liveDemo: "https://preview--market-bridge-platform-39.lovable.app/",
   },
   {
     title: "Real-Time Event Detection System",
