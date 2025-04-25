@@ -1,4 +1,3 @@
-
 import { useEffect, useRef } from 'react';
 
 interface Cloud {
@@ -59,7 +58,7 @@ const RainbowRainBackground = () => {
         width: 200 + Math.random() * 300,
         height: 80 + Math.random() * 80,
         speed: 0.2 + Math.random() * 0.2,
-        opacity: 0.5 + Math.random() * 0.3
+        opacity: 0.3 + Math.random() * 0.2  // Reduced opacity for lighter clouds
       });
     }
 
@@ -70,7 +69,7 @@ const RainbowRainBackground = () => {
         y: Math.random() * canvas.height,
         speed: 5 + Math.random() * 7,
         size: 1 + Math.random() * 2,
-        opacity: 0.3 + Math.random() * 0.3
+        opacity: 0.2 + Math.random() * 0.2  // Lighter rain drops
       });
     }
 
@@ -110,30 +109,19 @@ const RainbowRainBackground = () => {
 
     // Schedule thunder
     const scheduleThunder = () => {
-      const nextThunder = 5000 + Math.random() * 15000;
+      const nextThunder = 8000 + Math.random() * 20000; // Longer intervals between thunder
       thunderTimeoutRef.current = window.setTimeout(() => {
         lightnings.push(createLightning());
-        
-        // Show rainbow after thunder
-        setTimeout(() => {
-          showRainbow = true;
-          // And hide it after a while
-          setTimeout(() => {
-            showRainbow = false;
-          }, 10000 + Math.random() * 8000);
-        }, 2000);
-        
         scheduleThunder();
       }, nextThunder);
     };
 
-    // Start thunder schedule
     scheduleThunder();
 
     // Draw cloud
     const drawCloud = (cloud: Cloud) => {
       ctx.save();
-      ctx.fillStyle = `rgba(60, 30, 70, ${cloud.opacity})`;
+      ctx.fillStyle = `rgba(200, 200, 210, ${cloud.opacity})`; // Lighter cloud color
       
       // Draw cloud shape using multiple circles
       const centerX = cloud.x + cloud.width / 2;
@@ -157,45 +145,6 @@ const RainbowRainBackground = () => {
       ctx.restore();
     };
 
-    // Draw rainbow
-    const drawRainbow = () => {
-      if (!showRainbow) {
-        rainbowOpacity = Math.max(0, rainbowOpacity - 0.01);
-        if (rainbowOpacity <= 0) return;
-      } else {
-        rainbowOpacity = Math.min(0.7, rainbowOpacity + 0.01);
-      }
-      
-      const centerX = canvas.width * 0.5;
-      const bottomY = canvas.height * 1.1;
-      const radiusX = canvas.width * 0.7;
-      const radiusY = canvas.height * 0.9;
-      
-      // Rainbow colors
-      const colors = [
-        `rgba(255, 0, 0, ${rainbowOpacity})`,
-        `rgba(255, 127, 0, ${rainbowOpacity})`,
-        `rgba(255, 255, 0, ${rainbowOpacity})`,
-        `rgba(0, 255, 0, ${rainbowOpacity})`,
-        `rgba(0, 0, 255, ${rainbowOpacity})`,
-        `rgba(75, 0, 130, ${rainbowOpacity})`,
-        `rgba(148, 0, 211, ${rainbowOpacity})`
-      ];
-      
-      // Draw rainbow arcs
-      for (let i = 0; i < colors.length; i++) {
-        const arcWidth = 10;
-        const gap = 5;
-        const radius = radiusX - (i * (arcWidth + gap));
-        
-        ctx.beginPath();
-        ctx.strokeStyle = colors[i];
-        ctx.lineWidth = arcWidth;
-        ctx.arc(centerX, bottomY, radius, Math.PI, 0);
-        ctx.stroke();
-      }
-    };
-
     // Draw lightning
     const drawLightning = (lightning: Lightning) => {
       ctx.save();
@@ -216,22 +165,20 @@ const RainbowRainBackground = () => {
       ctx.stroke();
       ctx.restore();
       
-      // Update lightning
-      lightning.timeLeft -= 16; // Roughly 16ms per frame
+      lightning.timeLeft -= 16;
       lightning.opacity = lightning.timeLeft / lightning.duration;
       
       // Add bright background flash
-      ctx.fillStyle = `rgba(255, 255, 240, ${lightning.opacity * 0.2})`;
+      ctx.fillStyle = `rgba(255, 255, 240, ${lightning.opacity * 0.1})`;
       ctx.fillRect(0, 0, canvas.width, canvas.height);
     };
 
     // Animation loop
     const animate = () => {
-      // Clear canvas with a dark bluish-purple gradient
+      // Clear canvas with a light blue-gray gradient for daytime
       const gradient = ctx.createLinearGradient(0, 0, 0, canvas.height);
-      gradient.addColorStop(0, '#1A1F2C');
-      gradient.addColorStop(0.5, '#2a1b3d');
-      gradient.addColorStop(1, '#3b1640');
+      gradient.addColorStop(0, '#C8D6E5');  // Light blue-gray at top
+      gradient.addColorStop(1, '#8395A7');  // Slightly darker at bottom
       ctx.fillStyle = gradient;
       ctx.fillRect(0, 0, canvas.width, canvas.height);
       
@@ -244,24 +191,19 @@ const RainbowRainBackground = () => {
         drawCloud(cloud);
       });
       
-      // Draw rainbow
-      drawRainbow();
-      
       // Update and draw lightning
       lightnings = lightnings.filter(lightning => lightning.timeLeft > 0);
       lightnings.forEach(lightning => drawLightning(lightning));
       
-      // Update and draw raindrops
+      // Draw raindrops
       raindrops.forEach(drop => {
         ctx.beginPath();
-        ctx.fillStyle = `rgba(200, 220, 255, ${drop.opacity})`;
+        ctx.fillStyle = `rgba(220, 230, 240, ${drop.opacity})`; // Lighter rain color
         ctx.ellipse(drop.x, drop.y, drop.size / 2, drop.size, 0, 0, Math.PI * 2);
         ctx.fill();
         
-        // Update raindrop position
         drop.y += drop.speed;
         
-        // Reset raindrop if it goes off screen
         if (drop.y > canvas.height) {
           drop.y = -10;
           drop.x = Math.random() * canvas.width;
