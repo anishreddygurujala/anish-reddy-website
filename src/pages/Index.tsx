@@ -10,7 +10,7 @@ import ContactSection from "@/components/ContactSection";
 import Footer from "@/components/Footer";
 import ScrollToTop from "@/components/ScrollToTop";
 import AnimatedSection from "@/components/AnimatedSection";
-import UnderwaterScene from "@/components/UnderwaterScene";
+import RainbowRainBackground from "@/components/RainbowRainBackground";
 
 const Index = () => {
   useEffect(() => {
@@ -18,8 +18,8 @@ const Index = () => {
   }, []);
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-blue-400/20 to-blue-600/20 overflow-hidden">
-      <UnderwaterScene />
+    <div className="min-h-screen overflow-hidden">
+      <RainbowRainBackground />
       <Navbar />
       <main>
         <HeroSection />
